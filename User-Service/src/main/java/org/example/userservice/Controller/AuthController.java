@@ -19,8 +19,10 @@ public class AuthController {
         return authService.login(loginRequestDto);
     }
     @PostMapping("/refresh")
-    public AuthResponseDto refresh(@Valid @RequestBody RefreshTokenRequestDto refreshTokenRequestDto) {
-        return authService.refresh(refreshTokenRequestDto.getRefreshToken());
+    public AuthResponseDto refresh(
+            @Valid @RequestBody RefreshTokenRequestDto refreshTokenRequestDto) {
+
+        return authService.refresh(refreshTokenRequestDto);
     }
 
 }
