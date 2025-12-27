@@ -2,11 +2,17 @@ package org.example.userservice.Services;
 import org.example.userservice.DTO.AuthResponseDto;
 import org.example.userservice.DTO.LoginRequestDto;
 import org.example.userservice.DTO.RefreshTokenRequestDto;
+import org.example.userservice.DTO.UserRequestDto;
+import org.example.userservice.Entity.Role;
+import org.example.userservice.Entity.User;
+import org.example.userservice.Mapper.UserMapper;
+import org.example.userservice.Repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.*;
         import org.springframework.stereotype.Service;
 
@@ -21,15 +27,26 @@ public class AuthService {
     private final UserDetailsService userDetailsService;
     private final JwtEncoder jwtEncoder;
     private final JwtDecoder jwtDecoder;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+
+
 
     public AuthService(AuthenticationManager authenticationManager,
                        UserDetailsService userDetailsService,
                        JwtEncoder jwtEncoder,
-                       JwtDecoder jwtDecoder) {
+                       JwtDecoder jwtDecoder,
+                       UserRepository userRepository,
+                       UserMapper userMapper,
+                       PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtEncoder = jwtEncoder;
         this.jwtDecoder = jwtDecoder;
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public AuthResponseDto login(LoginRequestDto loginRequestDto) {
@@ -75,8 +92,8 @@ public class AuthService {
             throw new IllegalArgumentException("refresh token is empty");
         }
         String refreshToken = refreshTokenRequestDto.getRefreshToken();
+        Jwt jwt = jwtDecoder.decode(refreshToken);
 
-        Jwt jwt = jwtDecoder.decode(refreshTokenRequestDto.getRefreshToken());
 
         String email = jwt.getSubject(); // subject=email
 
@@ -101,4 +118,25 @@ public class AuthService {
 
         return new AuthResponseDto(newAccessToken, refreshToken);
     }
+    public AuthResponseDto register(UserRequestDto dto) {
+
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
+        User user = userMapper.toEntity(dto);
+
+        // 3️⃣ Business logic (SERVICE)
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(Role.CLIENT); // adapte si ton enum est différent
+
+        // 4️⃣ Save
+        userRepository.save(user);
+
+        LoginRequestDto loginDto =
+                new LoginRequestDto(dto.getEmail(), dto.getPassword());
+
+        return login(loginDto);
+    }
+
 }

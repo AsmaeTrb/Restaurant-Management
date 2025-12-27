@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.example.userservice.DTO.AuthResponseDto;
 import org.example.userservice.DTO.LoginRequestDto;
 import org.example.userservice.DTO.RefreshTokenRequestDto;
+import org.example.userservice.DTO.UserRequestDto;
 import org.example.userservice.Services.AuthService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,10 @@ public class AuthController {
             @Valid @RequestBody RefreshTokenRequestDto refreshTokenRequestDto) {
 
         return authService.refresh(refreshTokenRequestDto);
+    }
+    @PostMapping("/register")
+    public AuthResponseDto register(@Valid @RequestBody UserRequestDto userRequestDto) {
+        return authService.register(userRequestDto);
     }
 
 }
