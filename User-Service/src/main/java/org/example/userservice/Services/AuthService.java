@@ -128,7 +128,7 @@ public class AuthService {
 
         // 3️⃣ Business logic (SERVICE)
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole(Role.CLIENT); // adapte si ton enum est différent
+        user.setRole(Role.CLIENT);
 
         // 4️⃣ Save
         userRepository.save(user);
