@@ -4,6 +4,7 @@ import com.restaurant.menuservice.dto.PlatRequestDTO;
 import com.restaurant.menuservice.dto.PlatResponseDTO;
 import com.restaurant.menuservice.entity.Categorie;
 import com.restaurant.menuservice.entity.Plat;
+import com.restaurant.menuservice.exception.ResourceNotFoundException;
 import com.restaurant.menuservice.kafka.PlatProducer;
 import com.restaurant.menuservice.mapper.PlatMapper;
 import com.restaurant.menuservice.repository.CategorieRepository;
@@ -18,9 +19,8 @@ public class PlatService {
 
     private final PlatRepository platRepository;
     private final CategorieRepository categorieRepository;
-    private final PlatProducer platProducer; // 🔹 Kafka producer
+    private final PlatProducer platProducer; // Kafka producer
 
-    // Injecter PlatProducer dans le constructeur
     public PlatService(PlatRepository platRepository,
                        CategorieRepository categorieRepository,
                        PlatProducer platProducer) {
@@ -33,15 +33,15 @@ public class PlatService {
     public PlatResponseDTO createPlat(PlatRequestDTO dto) {
         Plat plat = PlatMapper.toEntity(dto);
 
-        // Récupérer la catégorie depuis l'ID
+        // Récupérer la catégorie depuis l'ID avec exception personnalisée
         Categorie categorie = categorieRepository.findById(dto.getCategorieId())
-                .orElseThrow(() -> new RuntimeException("Categorie non trouvée"));
+                .orElseThrow(() -> new ResourceNotFoundException("Catégorie non trouvée"));
         plat.setCategorie(categorie);
 
         Plat saved = platRepository.save(plat);
         PlatResponseDTO response = PlatMapper.toResponse(saved);
 
-        //  Publier l'événement Kafka
+        // Publier l'événement Kafka
         platProducer.sendPlatEvent(response);
 
         return response;
@@ -53,24 +53,29 @@ public class PlatService {
                 .map(PlatMapper::toResponse)
                 .collect(Collectors.toList());
     }
+    public PlatResponseDTO getPlatById(Long id) {
+        Plat plat = platRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Plat non trouvé"));
+        return PlatMapper.toResponse(plat);
+    }
 
     // Modifier un plat
     public PlatResponseDTO updatePlat(Long id, PlatRequestDTO dto) {
         Plat plat = platRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Plat non trouvé"));
+                .orElseThrow(() -> new ResourceNotFoundException("Plat non trouvé"));
         plat.setNom(dto.getNom());
         plat.setPrix(dto.getPrix());
         plat.setDisponible(dto.isDisponible());
 
         // Mettre à jour la catégorie
         Categorie categorie = categorieRepository.findById(dto.getCategorieId())
-                .orElseThrow(() -> new RuntimeException("Categorie non trouvée"));
+                .orElseThrow(() -> new ResourceNotFoundException("Catégorie non trouvée"));
         plat.setCategorie(categorie);
 
         Plat updated = platRepository.save(plat);
         PlatResponseDTO response = PlatMapper.toResponse(updated);
 
-        // 🔹 Publier l'événement Kafka après update
+        // Publier l'événement Kafka après update
         platProducer.sendPlatEvent(response);
 
         return response;
@@ -78,9 +83,11 @@ public class PlatService {
 
     // Supprimer un plat
     public void deletePlat(Long id) {
-        platRepository.deleteById(id);
+        Plat plat = platRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Plat non trouvé"));
+        platRepository.delete(plat);
 
-        // 🔹 Publier un événement “Plat supprimé”
+        // Publier un événement “Plat supprimé”
         platProducer.sendPlatDeletedEvent(id);
     }
 }

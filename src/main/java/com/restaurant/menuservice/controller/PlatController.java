@@ -14,6 +14,11 @@ public class PlatController {
     public PlatController(PlatService platService) {
         this.platService = platService;
     }
+    @GetMapping("/{id}")
+    public PlatResponseDTO getPlatById(@PathVariable Long id) {
+        return platService.getPlatById(id);
+    }
+
 
     @PostMapping
     public PlatResponseDTO createPlat(@RequestBody PlatRequestDTO dto) {

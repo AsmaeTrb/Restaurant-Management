@@ -3,6 +3,7 @@ package com.restaurant.menuservice.service;
 import com.restaurant.menuservice.dto.CategorieRequestDTO;
 import com.restaurant.menuservice.dto.CategorieResponseDTO;
 import com.restaurant.menuservice.entity.Categorie;
+import com.restaurant.menuservice.exception.ResourceNotFoundException;
 import com.restaurant.menuservice.mapper.CategorieMapper;
 import com.restaurant.menuservice.repository.CategorieRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class CategorieService {
     // Modifier une catégorie
     public CategorieResponseDTO updateCategorie(Long id, CategorieRequestDTO dto) {
         Categorie categorie = categorieRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Catégorie non trouvée"));
+                .orElseThrow(() -> new ResourceNotFoundException("Catégorie non trouvée"));
         categorie.setNom(dto.getNom());
         Categorie updated = categorieRepository.save(categorie);
         return CategorieMapper.toResponse(updated);
@@ -44,7 +45,10 @@ public class CategorieService {
 
     // Supprimer une catégorie
     public void deleteCategorie(Long id) {
-        categorieRepository.deleteById(id);
+        Categorie categorie = categorieRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Catégorie non trouvée"));
+        categorieRepository.delete(categorie);
     }
 }
+
 
