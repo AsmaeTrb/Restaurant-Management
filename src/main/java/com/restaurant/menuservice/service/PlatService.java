@@ -4,10 +4,12 @@ import com.restaurant.menuservice.dto.PlatRequestDTO;
 import com.restaurant.menuservice.dto.PlatResponseDTO;
 import com.restaurant.menuservice.entity.Categorie;
 import com.restaurant.menuservice.entity.Plat;
+import com.restaurant.menuservice.kafka.PlatProducer;
 import com.restaurant.menuservice.mapper.PlatMapper;
 import com.restaurant.menuservice.repository.CategorieRepository;
 import com.restaurant.menuservice.repository.PlatRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,10 +18,15 @@ public class PlatService {
 
     private final PlatRepository platRepository;
     private final CategorieRepository categorieRepository;
+    private final PlatProducer platProducer; // 🔹 Kafka producer
 
-    public PlatService(PlatRepository platRepository, CategorieRepository categorieRepository) {
+    // Injecter PlatProducer dans le constructeur
+    public PlatService(PlatRepository platRepository,
+                       CategorieRepository categorieRepository,
+                       PlatProducer platProducer) {
         this.platRepository = platRepository;
         this.categorieRepository = categorieRepository;
+        this.platProducer = platProducer;
     }
 
     // Créer un plat
@@ -32,7 +39,12 @@ public class PlatService {
         plat.setCategorie(categorie);
 
         Plat saved = platRepository.save(plat);
-        return PlatMapper.toResponse(saved);
+        PlatResponseDTO response = PlatMapper.toResponse(saved);
+
+        //  Publier l'événement Kafka
+        platProducer.sendPlatEvent(response);
+
+        return response;
     }
 
     // Lister tous les plats
@@ -56,11 +68,20 @@ public class PlatService {
         plat.setCategorie(categorie);
 
         Plat updated = platRepository.save(plat);
-        return PlatMapper.toResponse(updated);
+        PlatResponseDTO response = PlatMapper.toResponse(updated);
+
+        // 🔹 Publier l'événement Kafka après update
+        platProducer.sendPlatEvent(response);
+
+        return response;
     }
 
     // Supprimer un plat
     public void deletePlat(Long id) {
         platRepository.deleteById(id);
+
+        // 🔹 Publier un événement “Plat supprimé”
+        platProducer.sendPlatDeletedEvent(id);
     }
 }
+
