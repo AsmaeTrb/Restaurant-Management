@@ -25,13 +25,13 @@ public class UserDetailService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         // Authorities (roles)
+        // ⬇️ CHANGE JUSTE CETTE LIGNE : remets "ROLE_" devant
         List<GrantedAuthority> authorities =
                 List.of(new SimpleGrantedAuthority("ROLE_" + u.getRole().name()));
 
-        // Return Spring Security user
         return new org.springframework.security.core.userdetails.User(
-                u.getEmail(),        // username used by Spring Security
-                u.getPassword(),     // hashed password
+                u.getEmail(),
+                u.getPassword(),
                 authorities
         );
     }

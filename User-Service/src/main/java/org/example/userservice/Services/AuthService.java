@@ -56,6 +56,8 @@ public class AuthService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getPassword())
         );
+        User user = userRepository.findByEmail(loginRequestDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         String scope = authentication.getAuthorities()
                 .stream()
@@ -66,7 +68,10 @@ public class AuthService {
                 .subject(authentication.getName()) // email
                 .issuer("User_Service")
                 .issuedAt(instant)
-                .expiresAt(instant.plus(2, ChronoUnit.MINUTES))
+                .expiresAt(instant.plus(15, ChronoUnit.MINUTES))
+                .claim("userId", user.getUserId()) // ⭐⭐ AJOUTER userId DANS LE JWT
+                .claim("email", user.getEmail())   // ⭐ AJOUTER email
+                .claim("firstName", user.getFirstName()) // ⭐ AJOUTER firstName
                 .claim("scope", scope)
                 .build();
 
@@ -76,7 +81,8 @@ public class AuthService {
                 .subject(authentication.getName())
                 .issuer("User_Service")
                 .issuedAt(instant)
-                .expiresAt(instant.plus(5, ChronoUnit.MINUTES))
+                .claim("userId", user.getUserId()) // ⭐ AJOUTER dans refresh aussi
+                .expiresAt(instant.plus(7, ChronoUnit.DAYS)) // ⭐ Refresh plus long
                 .build();
 
         String refreshToken = jwtEncoder.encode(JwtEncoderParameters.from(refreshClaims)).getTokenValue();
@@ -96,6 +102,7 @@ public class AuthService {
 
 
         String email = jwt.getSubject(); // subject=email
+        Long userId = jwt.getClaim("userId");
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
@@ -110,6 +117,8 @@ public class AuthService {
                 .subject(userDetails.getUsername()) // email
                 .issuer("User_Service")
                 .issuedAt(instant)
+                .claim("userId", userId) // ⭐ AJOUTER userId
+                .claim("email", email)   // ⭐ AJOUTER email
                 .expiresAt(instant.plus(2, ChronoUnit.MINUTES))
                 .claim("scope", scope)
                 .build();

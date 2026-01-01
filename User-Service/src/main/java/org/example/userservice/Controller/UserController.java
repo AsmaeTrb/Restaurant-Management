@@ -21,7 +21,7 @@ public class UserController {
         return userService.getMyProfile(authentication.getName());
     }
 
-    @PutMapping("/profile/{id}")
+    @PutMapping("/profile")
     public UserResponseDto updateProfile(Authentication authentication,
                                            @RequestBody UserRequestDto userRequestDto) {
         return userService.updateMyProfile(
