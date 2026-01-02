@@ -20,7 +20,7 @@ public class CorsConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
-
+        config.addExposedHeader("X-Session-Id"); // ← Important
         return new CorsWebFilter(source);
     }
 }

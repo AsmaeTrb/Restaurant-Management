@@ -8,7 +8,7 @@ import java.util.List;
 public class CartResponseDTO {
     private Long id;
     private String sessionId;
-    private Long customerId;
+    private String customerId;
     private boolean active;
     private double total;
     private int totalItems;

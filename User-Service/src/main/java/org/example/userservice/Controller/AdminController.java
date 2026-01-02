@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/users")
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
 public class AdminController {
 
     private final AdminService adminService;

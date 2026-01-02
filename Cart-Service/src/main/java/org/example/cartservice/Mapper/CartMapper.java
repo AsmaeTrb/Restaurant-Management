@@ -33,13 +33,12 @@ public class CartMapper {
         }
 
         // Calculer totalItems
-        dto.setTotalItems(calculateTotalItems(cart));
+        dto.setTotalItems(cart.getTotalItems());
 
         return dto;
     }
 
     // ========== CART ITEM → CART ITEM RESPONSE DTO ==========
-
     public CartItemResponseDTO toCartItemResponseDTO(CartItem item) {
         if (item == null) {
             return null;
@@ -83,17 +82,5 @@ public class CartMapper {
         }
 
         return toCartItem(dishInfo, request.getQuantity());
-    }
-
-    // ========== MÉTHODES UTILITAIRES ==========
-
-    private int calculateTotalItems(Cart cart) {
-        if (cart == null || cart.getItems() == null) {
-            return 0;
-        }
-
-        return cart.getItems().stream()
-                .mapToInt(CartItem::getQuantity)
-                .sum();
     }
 }

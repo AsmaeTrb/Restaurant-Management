@@ -7,5 +7,5 @@ import lombok.*;
 @AllArgsConstructor
 public class CartRequestDTO {
     private String sessionId;      // Optionnel
-    private Long customerId;       // Optionnel (si utilisateur connecté)
+    private String customerId;       // Optionnel (si utilisateur connecté)
 }

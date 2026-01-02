@@ -20,7 +20,7 @@ public class Cart {
     private String sessionId;
 
     @Column(name = "customer_id")
-    private Long customerId;
+    private String customerId;
 
     private boolean active = true;
     private double total = 0.0;
