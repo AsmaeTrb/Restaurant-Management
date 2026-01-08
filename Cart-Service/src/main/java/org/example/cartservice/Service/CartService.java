@@ -78,16 +78,9 @@ public class CartService {
                 userCart.addItem(newItem);
             }
 
-            // Option A (simple) : supprimer le panier session (comme tu fais déjà)
             cartRepository.delete(sessionCart);
-
-            // Option B (plus safe) : le désactiver au lieu de delete
-            // sessionCart.setActive(false);
-            // sessionCart.clear();
-            // cartRepository.save(sessionCart);
         }
 
-        // 4) Sauvegarder le panier utilisateur (total déjà recalculé par addItem)
         Cart savedCart = cartRepository.save(userCart);
 
         log.info("✅ Paniers fusionnés (addition qty): session {} → user {}", sessionId, userId);
