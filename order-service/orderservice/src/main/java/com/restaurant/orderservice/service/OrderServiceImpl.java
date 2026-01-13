@@ -1,8 +1,11 @@
 package com.restaurant.orderservice.service;
+
+import com.restaurant.orderservice.dto.OrderCreatedEvent;
 import com.restaurant.orderservice.dto.OrderRequestDTO;
 import com.restaurant.orderservice.dto.OrderResponseDTO;
 import com.restaurant.orderservice.entity.Order;
 import com.restaurant.orderservice.exception.ResourceNotFoundException;
+import com.restaurant.orderservice.kafka.OrderEventProducer;
 import com.restaurant.orderservice.mapper.OrderMapper;
 import com.restaurant.orderservice.repository.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -14,15 +17,34 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderEventProducer orderEventProducer;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(
+            OrderRepository orderRepository,
+            OrderEventProducer orderEventProducer
+    ) {
         this.orderRepository = orderRepository;
+        this.orderEventProducer = orderEventProducer;
     }
 
     @Override
     public OrderResponseDTO createOrder(OrderRequestDTO request) {
+
+        // 1 Créer et sauvegarder la commande
         Order order = OrderMapper.toEntity(request);
         Order savedOrder = orderRepository.save(order);
+
+        // 2 Créer l’événement Kafka
+        OrderCreatedEvent event = OrderCreatedEvent.builder()
+                .orderId(savedOrder.getId())
+                .amount(savedOrder.getTotal())
+                .currency("MAD")
+                .build();
+
+        // 3Publier l’événement
+        orderEventProducer.publishOrderCreated(event);
+
+        // 4 Retourner la réponse
         return OrderMapper.toResponseDTO(savedOrder);
     }
 
@@ -51,4 +73,7 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.deleteById(id);
     }
 }
+
+
+
 

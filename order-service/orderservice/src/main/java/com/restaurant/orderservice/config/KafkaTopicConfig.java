@@ -22,4 +22,12 @@ public class KafkaTopicConfig {
                 .replicas(1)
                 .build();
     }
+    @Bean
+    public NewTopic orderCreatedTopic() {
+        return TopicBuilder.name("order-created-topic")
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+
 }

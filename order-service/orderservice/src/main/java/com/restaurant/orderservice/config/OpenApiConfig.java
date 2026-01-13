@@ -8,18 +8,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfig {
 
-    @Bean
+     @Bean
     public OpenAPI orderServiceOpenAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Order Service API")
-                        .description("Microservice de gestion des commandes")
-                        .version("1.0.0")
-                        .contact(new Contact()
-                                .name("Restaurant Team")
-                                .email("contact@restaurant.com")
+     return new OpenAPI()
+    .info(new Info()
+     .title("Order Service API")
+     .description("Microservice de gestion des commandes")
+    .version("1.0.0")
+    .contact(new Contact()
+            .name("Restaurant Team")
+     .email("contact@restaurant.com")
                         )
-                );
+     );
     }
 }
 
