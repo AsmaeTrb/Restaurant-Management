@@ -21,25 +21,27 @@ public class OrderMapper {
         return new Order(
                 UUID.randomUUID().toString(),
                 dto.getCustomerId(),
-                convertItemsToJson(dto.getItems()), // ✅ List<String>
+                convertItemsToJson(dto.getItems()),
                 calculateTotal(dto.getItems()),
                 LocalDateTime.now(),
-                dto.getStatus().name()               // ✅ enum → String
+                OrderStatus.PENDING //  la commande commence TOUJOURS en PENDING
         );
     }
+
+
 
     // ================= ENTITY → DTO =================
     public static OrderResponseDTO toResponseDTO(Order order) {
         return new OrderResponseDTO(
                 order.getId(),
                 order.getCustomerId(),
-                // ✅ JSON → DTO
                 convertJsonToItems(order.getItemsJson()),
                 order.getTotal(),
                 order.getOrderDate(),
-                OrderStatus.valueOf(order.getStatus()) // ✅ String → enum
+                order.getStatus() // ✅ DIRECT
         );
     }
+
 
     // ================= HELPERS =================
 

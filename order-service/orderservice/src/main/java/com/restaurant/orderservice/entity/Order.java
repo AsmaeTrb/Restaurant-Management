@@ -27,5 +27,6 @@ public class Order {
 
     private LocalDateTime orderDate;
 
-    private String status;
+    private OrderStatus status;
+
 }
