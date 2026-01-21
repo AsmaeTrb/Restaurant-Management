@@ -37,12 +37,6 @@ public class SecurityConfig {
                                 "/actuator/**"
                         ).permitAll()
 
-                        // Endpoints publics pour les sessions anonymes
-                        .requestMatchers(
-                                "/api/carts/anonymous/**",
-                                "/api/carts/session/**"
-                        ).permitAll()
-
                         // Les autres endpoints nécessitent une authentification
                         .anyRequest().authenticated()
                 )

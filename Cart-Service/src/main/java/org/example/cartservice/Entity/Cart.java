@@ -16,9 +16,6 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "session_id", unique = true)
-    private String sessionId;
-
     @Column(name = "customer_id")
     private String customerId;
 

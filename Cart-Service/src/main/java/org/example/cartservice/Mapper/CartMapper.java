@@ -18,7 +18,6 @@ public class CartMapper {
 
         CartResponseDTO dto = new CartResponseDTO();
         dto.setId(cart.getId());
-        dto.setSessionId(cart.getSessionId());
         dto.setCustomerId(cart.getCustomerId());
         dto.setActive(cart.isActive());
         dto.setTotal(cart.getTotal());

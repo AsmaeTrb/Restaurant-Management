@@ -21,20 +21,7 @@ public class CartService {
     private final MenuServiceFeignClient menuFeignClient;
     private final CartMapper cartMapper;
 
-    // ========== MÉTHODES SESSION ==========
-    public CartResponseDTO getCartBySessionId(String sessionId) {
-        Cart cart = cartRepository.findBySessionId(sessionId)
-                .orElseThrow(() -> new CartNotFoundException("Session: " + sessionId));
-        return cartMapper.toResponseDTO(cart);
-    }
 
-    public Long findCartIdBySessionId(String sessionId) {
-        return cartRepository.findBySessionId(sessionId)
-                .map(Cart::getId)
-                .orElseThrow(() -> new CartNotFoundException("Session: " + sessionId));
-    }
-
-    // ========== MÉTHODES UTILISATEUR ==========
     public CartResponseDTO getCartByCustomerId(String customerId) {
 
         Cart cart = cartRepository.findByCustomerId(customerId)
@@ -63,72 +50,6 @@ public class CartService {
 
 
     // ========== MÉTHODE DE FUSION ==========
-    @Transactional
-    public CartResponseDTO mergeCarts(String sessionId, String userId) {
-
-        Cart sessionCart = cartRepository.findBySessionId(sessionId).orElse(null);
-
-        Cart userCart = cartRepository.findByCustomerId(userId)
-                .orElseGet(() -> {
-                    Cart newCart = new Cart();
-                    newCart.setCustomerId(userId);
-                    newCart.setActive(true);
-                    return cartRepository.save(newCart);
-                });
-
-        // Rien à fusionner => retourne le panier user
-        if (sessionCart == null || sessionCart.getItems() == null || sessionCart.getItems().isEmpty()) {
-            return cartMapper.toResponseDTO(userCart);
-        }
-
-        // Assure liste non null
-        if (userCart.getItems() == null) {
-            userCart.setItems(new java.util.ArrayList<>());
-        }
-
-        for (CartItem sessionItem : sessionCart.getItems()) {
-
-            // Chercher si le plat existe déjà dans le panier user
-            CartItem existing = userCart.getItems().stream()
-                    .filter(i -> i.getPlatId() != null && i.getPlatId().equals(sessionItem.getPlatId()))
-                    .findFirst()
-                    .orElse(null);
-
-            if (existing != null) {
-                // ✅ addition quantité
-                existing.setQuantity(existing.getQuantity() + sessionItem.getQuantity());
-
-                // optionnel : mettre à jour prix/nom/dispo si tu veux synchroniser
-                existing.setUnitPrice(sessionItem.getUnitPrice());
-                existing.setDishName(sessionItem.getDishName());
-                existing.setAvailable(sessionItem.isAvailable());
-
-            } else {
-                // ✅ nouveau item
-                CartItem newItem = new CartItem();
-                newItem.setPlatId(sessionItem.getPlatId());
-                newItem.setDishName(sessionItem.getDishName());
-                newItem.setUnitPrice(sessionItem.getUnitPrice());
-                newItem.setQuantity(sessionItem.getQuantity());
-                newItem.setAvailable(sessionItem.isAvailable());
-
-                // Important: lier au cart (selon ton mapping JPA)
-                // si ton Cart.addItem() fait déjà newItem.setCart(this), garde addItem().
-                userCart.addItem(newItem);
-            }
-        }
-
-        // ✅ recalcul total / totalItems (selon ta méthode)
-        userCart.calculateTotal();
-
-        Cart saved = cartRepository.save(userCart);
-
-        // ✅ supprimer panier session
-        cartRepository.delete(sessionCart);
-
-        log.info("✅ Merge carts OK: session {} -> user {}", sessionId, userId);
-        return cartMapper.toResponseDTO(saved);
-    }
 
     // ========== MÉTHODES EXISTANTES (gardées telles quelles) ==========
     public CartResponseDTO addItemToCart(Long cartId, CartItemRequestDTO request) {
@@ -160,7 +81,6 @@ public class CartService {
 
     public CartResponseDTO createCart(CartRequestDTO request) {
         Cart cart = new Cart();
-        cart.setSessionId(request.getSessionId());
         cart.setCustomerId(request.getCustomerId());
         cart.setActive(true);
 

@@ -7,7 +7,6 @@ import java.util.List;
 @NoArgsConstructor
 public class CartResponseDTO {
     private Long id;
-    private String sessionId;
     private String customerId;
     private boolean active;
     private double total;

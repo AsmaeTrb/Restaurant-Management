@@ -6,6 +6,5 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartRequestDTO {
-    private String sessionId;      // Optionnel
     private String customerId;       // Optionnel (si utilisateur connecté)
 }
