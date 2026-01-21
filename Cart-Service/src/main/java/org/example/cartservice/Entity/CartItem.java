@@ -28,6 +28,9 @@ public class CartItem {
     @ManyToOne  // Relation : plusieurs CartItem → 1 Cart
     @JoinColumn(name = "cart_id")  // Colonne qui référence le panier
     private Cart cart;          // Le panier auquel appartient cet article
+    @Column(name = "image_url") // ← ASSUREZ-VOUS QUE C'EST PRÉSENT
+    private String imageUrl;
+
 
     // Calculer le sous-total
     public double getSubtotal() {

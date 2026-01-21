@@ -36,24 +36,38 @@ public class CartService {
 
     // ========== MÉTHODES UTILISATEUR ==========
     public CartResponseDTO getCartByCustomerId(String customerId) {
+
         Cart cart = cartRepository.findByCustomerId(customerId)
-                .orElseThrow(() -> new CartNotFoundException("User: " + customerId));
+                .orElseGet(() -> {
+                    Cart newCart = new Cart();
+                    newCart.setCustomerId(customerId);
+                    newCart.setActive(true);
+                    newCart.setTotal(0.0);
+                    return cartRepository.save(newCart);
+                });
+
         return cartMapper.toResponseDTO(cart);
     }
 
     public Long findCartIdByCustomerId(String customerId) {
         return cartRepository.findByCustomerId(customerId)
                 .map(Cart::getId)
-                .orElseThrow(() -> new CartNotFoundException("User: " + customerId));
+                .orElseGet(() -> {
+                    Cart newCart = new Cart();
+                    newCart.setCustomerId(customerId);
+                    newCart.setActive(true);
+                    newCart.setTotal(0.0);
+                    return cartRepository.save(newCart).getId();
+                });
     }
 
+
     // ========== MÉTHODE DE FUSION ==========
+    @Transactional
     public CartResponseDTO mergeCarts(String sessionId, String userId) {
 
-        // 1) Trouver le panier session
         Cart sessionCart = cartRepository.findBySessionId(sessionId).orElse(null);
 
-        // 2) Trouver ou créer le panier utilisateur
         Cart userCart = cartRepository.findByCustomerId(userId)
                 .orElseGet(() -> {
                     Cart newCart = new Cart();
@@ -62,12 +76,35 @@ public class CartService {
                     return cartRepository.save(newCart);
                 });
 
-        // 3) Fusion : additionner quantités si même platId
-        if (sessionCart != null && sessionCart.getItems() != null && !sessionCart.getItems().isEmpty()) {
+        // Rien à fusionner => retourne le panier user
+        if (sessionCart == null || sessionCart.getItems() == null || sessionCart.getItems().isEmpty()) {
+            return cartMapper.toResponseDTO(userCart);
+        }
 
-            for (CartItem sessionItem : sessionCart.getItems()) {
+        // Assure liste non null
+        if (userCart.getItems() == null) {
+            userCart.setItems(new java.util.ArrayList<>());
+        }
 
-                // On crée un nouvel item à ajouter au panier user
+        for (CartItem sessionItem : sessionCart.getItems()) {
+
+            // Chercher si le plat existe déjà dans le panier user
+            CartItem existing = userCart.getItems().stream()
+                    .filter(i -> i.getPlatId() != null && i.getPlatId().equals(sessionItem.getPlatId()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (existing != null) {
+                // ✅ addition quantité
+                existing.setQuantity(existing.getQuantity() + sessionItem.getQuantity());
+
+                // optionnel : mettre à jour prix/nom/dispo si tu veux synchroniser
+                existing.setUnitPrice(sessionItem.getUnitPrice());
+                existing.setDishName(sessionItem.getDishName());
+                existing.setAvailable(sessionItem.isAvailable());
+
+            } else {
+                // ✅ nouveau item
                 CartItem newItem = new CartItem();
                 newItem.setPlatId(sessionItem.getPlatId());
                 newItem.setDishName(sessionItem.getDishName());
@@ -75,18 +112,23 @@ public class CartService {
                 newItem.setQuantity(sessionItem.getQuantity());
                 newItem.setAvailable(sessionItem.isAvailable());
 
+                // Important: lier au cart (selon ton mapping JPA)
+                // si ton Cart.addItem() fait déjà newItem.setCart(this), garde addItem().
                 userCart.addItem(newItem);
             }
-
-            cartRepository.delete(sessionCart);
         }
 
-        Cart savedCart = cartRepository.save(userCart);
+        // ✅ recalcul total / totalItems (selon ta méthode)
+        userCart.calculateTotal();
 
-        log.info("✅ Paniers fusionnés (addition qty): session {} → user {}", sessionId, userId);
-        return cartMapper.toResponseDTO(savedCart);
+        Cart saved = cartRepository.save(userCart);
+
+        // ✅ supprimer panier session
+        cartRepository.delete(sessionCart);
+
+        log.info("✅ Merge carts OK: session {} -> user {}", sessionId, userId);
+        return cartMapper.toResponseDTO(saved);
     }
-
 
     // ========== MÉTHODES EXISTANTES (gardées telles quelles) ==========
     public CartResponseDTO addItemToCart(Long cartId, CartItemRequestDTO request) {

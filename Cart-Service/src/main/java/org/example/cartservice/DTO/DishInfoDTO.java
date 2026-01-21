@@ -10,4 +10,6 @@ public class DishInfoDTO {
     private double prix;
     private boolean disponible;
     private String categorieNom;
+    private String imageUrl; // ← AJOUTEZ CETTE LIGNE
+
 }

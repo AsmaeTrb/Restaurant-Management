@@ -52,6 +52,8 @@ public class CartMapper {
         dto.setQuantity(item.getQuantity());
         dto.setAvailable(item.isAvailable());
         dto.setSubtotal(item.getSubtotal());
+        dto.setImageUrl(item.getImageUrl()); // ← AJOUTEZ CETTE LIGNE
+
 
         return dto;
     }
@@ -69,6 +71,8 @@ public class CartMapper {
         item.setUnitPrice(dishInfo.getPrix());
         item.setQuantity(quantity);
         item.setAvailable(dishInfo.isDisponible());
+        item.setImageUrl(dishInfo.getImageUrl()); // ← AJOUTEZ CETTE LIGNE
+
         // Note: cart sera défini plus tard dans le service
 
         return item;

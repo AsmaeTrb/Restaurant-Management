@@ -104,29 +104,6 @@ public class CartController {
     // ========== 2. ENDPOINTS UTILISATEUR (avec JWT) ==========
 
     @Operation(
-            summary = "Créer un panier pour utilisateur connecté",
-            description = "Crée un nouveau panier pour un utilisateur authentifié",
-            security = @SecurityRequirement(name = "bearerAuth")
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "Panier utilisateur créé avec succès",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CartResponseDTO.class))
-            )
-    })
-    @PostMapping("/user")
-    @ResponseStatus(HttpStatus.CREATED)
-    public CartResponseDTO createCartForUser(
-            @Parameter(hidden = true)
-            @AuthenticationPrincipal Jwt jwt) {
-        String userId = jwt.getSubject();
-        CartRequestDTO request = new CartRequestDTO();
-        request.setCustomerId(userId);
-        return cartService.createCart(request);
-    }
-
-    @Operation(
             summary = "Récupérer le panier de l'utilisateur connecté",
             description = "Retourne le panier de l'utilisateur authentifié",
             security = @SecurityRequirement(name = "bearerAuth")
@@ -164,14 +141,14 @@ public class CartController {
     })
     @PostMapping("/user/items")
     public CartResponseDTO addItemToUserCart(
-            @Parameter(hidden = true)
             @AuthenticationPrincipal Jwt jwt,
-            @Parameter(description = "Détails de l'item à ajouter", required = true)
             @Valid @RequestBody CartItemRequestDTO request) {
+
         String userId = jwt.getSubject();
         Long cartId = cartService.findCartIdByCustomerId(userId);
         return cartService.addItemToCart(cartId, request);
     }
+
 
     // ========== 3. ENDPOINTS COMMUNS (par cartId) ==========
 
