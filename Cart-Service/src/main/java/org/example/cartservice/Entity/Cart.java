@@ -15,7 +15,8 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "session_id", unique = true)
+    private String sessionId;  // ← CE CHAMP EST-IL PRÉSENT ?
     @Column(name = "customer_id")
     private String customerId;
 

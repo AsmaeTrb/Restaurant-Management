@@ -2,9 +2,7 @@ package com.restaurant.orderservice.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurant.orderservice.dto.OrderItemDTO;
-import com.restaurant.orderservice.dto.OrderRequestDTO;
-import com.restaurant.orderservice.dto.OrderResponseDTO;
+import com.restaurant.orderservice.dto.*;
 import com.restaurant.orderservice.entity.Order;
 import com.restaurant.orderservice.entity.OrderStatus;
 
@@ -18,14 +16,27 @@ public class OrderMapper {
 
     // ================= DTO → ENTITY =================
     public static Order toEntity(OrderRequestDTO dto) {
-        return new Order(
-                UUID.randomUUID().toString(),
-                dto.getCustomerId(),
-                convertItemsToJson(dto.getItems()), // ✅ List<String>
-                calculateTotal(dto.getItems()),
-                LocalDateTime.now(),
-                dto.getStatus().name()               // ✅ enum → String
-        );
+        Order order = new Order();
+        order.setId(UUID.randomUUID().toString());
+        order.setItemsJson(convertItemsToJson(dto.getItems()));
+        order.setTotal(calculateTotal(dto.getItems()));
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus(OrderStatus.PENDING);
+        order.setPaymentId(null);
+        return order;
+    }
+
+    // ================= CART → ENTITY =================
+    public static Order cartToEntity(List<CartItemResponseDTO> cartItems, Long customerId) {
+        Order order = new Order();
+        order.setId(UUID.randomUUID().toString());
+        order.setCustomerId(customerId);
+        order.setItemsJson(convertCartItemsToJson(cartItems));
+        order.setTotal(calculateTotalFromCart(cartItems));
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus(OrderStatus.PENDING);
+        order.setPaymentId(null);
+        return order;
     }
 
     // ================= ENTITY → DTO =================
@@ -33,17 +44,17 @@ public class OrderMapper {
         return new OrderResponseDTO(
                 order.getId(),
                 order.getCustomerId(),
-                // ✅ JSON → DTO
                 convertJsonToItems(order.getItemsJson()),
                 order.getTotal(),
                 order.getOrderDate(),
-                OrderStatus.valueOf(order.getStatus()) // ✅ String → enum
+                order.getStatus(),
+                order.getPaymentId()
         );
     }
 
     // ================= HELPERS =================
 
-    private static List<String> convertItemsToJson(List<OrderItemDTO> items) {
+    public static List<String> convertItemsToJson(List<OrderItemDTO> items) {
         return items.stream()
                 .map(item -> {
                     try {
@@ -53,6 +64,21 @@ public class OrderMapper {
                     }
                 })
                 .toList();
+    }
+
+    private static List<String> convertCartItemsToJson(List<CartItemResponseDTO> cartItems) {
+        // Convertir CartItemResponseDTO → OrderItemDTO
+        List<OrderItemDTO> orderItems = cartItems.stream()
+                .map(cartItem -> {
+                    OrderItemDTO orderItem = new OrderItemDTO();
+                    orderItem.setPlatId(cartItem.getPlatId());
+                    orderItem.setPrice(cartItem.getUnitPrice());
+                    orderItem.setQuantity(cartItem.getQuantity());
+                    return orderItem;
+                })
+                .toList();
+
+        return convertItemsToJson(orderItems);
     }
 
     private static List<OrderItemDTO> convertJsonToItems(List<String> itemsJson) {
@@ -67,12 +93,15 @@ public class OrderMapper {
                 .toList();
     }
 
-    // Le client ne calcule JAMAIS le total
     private static double calculateTotal(List<OrderItemDTO> items) {
         return items.stream()
                 .mapToDouble(i -> i.getPrice() * i.getQuantity())
                 .sum();
     }
+
+    private static double calculateTotalFromCart(List<CartItemResponseDTO> cartItems) {
+        return cartItems.stream()
+                .mapToDouble(CartItemResponseDTO::getSubtotal)
+                .sum();
+    }
 }
-
-

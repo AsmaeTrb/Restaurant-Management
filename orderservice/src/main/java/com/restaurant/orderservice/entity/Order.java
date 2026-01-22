@@ -14,18 +14,20 @@ import org.springframework.data.cassandra.core.mapping.CassandraType.Name;
 @AllArgsConstructor
 @Table("orders")
 public class Order {
-
     @PrimaryKey
     private String id;
 
     private Long customerId;
 
     @CassandraType(type = Name.LIST, typeArguments = Name.TEXT)
-    private List<String> itemsJson; // Chaque String = JSON d'un OrderItem
+    private List<String> itemsJson;
 
     private double total;
-
     private LocalDateTime orderDate;
 
-    private String status;
+    private OrderStatus status;
+
+    // ✅ important : stocker paymentId
+    private String paymentId;
 }
+

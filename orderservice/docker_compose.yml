@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  cassandra:
+    image: cassandra:4.1
+    container_name: cassandra-order
+    ports:
+      - "9042:9042"
+    environment:
+      CASSANDRA_CLUSTER_NAME: "order-cluster"
+      CASSANDRA_DATACENTER: datacenter1
+      CASSANDRA_RACK: rack1
+      CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+    volumes:
+      - cassandra_order_data:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'describe keyspaces'"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+volumes:
+  cassandra_order_data:
+# #####################################################
+# #Après le docker-compose up -d, fais UNE FOIS
+# #docker exec -it cassandra-order cqlsh
+# #CREATE KEYSPACE IF NOT EXISTS orders
+#WITH replication = {
+#  'class': 'SimpleStrategy',
+#  'replication_factor': 1
+#};
+# # Puis :
+#
+#DESCRIBE keyspaces;
+# #
+# #
+# #
+# #
+# #####################################################

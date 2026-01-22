@@ -1,16 +1,16 @@
 package com.restaurant.orderservice.kafka;
 
 import com.restaurant.orderservice.dto.PlatDTO;
-import com.restaurant.orderservice.service.OrderService;
+import com.restaurant.orderservice.service.OrderServiceImpl;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PlatConsumer {
 
-    private final OrderService orderService;
+    private final OrderServiceImpl orderService;
 
-    public PlatConsumer(OrderService orderService) {
+    public PlatConsumer(OrderServiceImpl orderService) {
         this.orderService = orderService;
     }
 

@@ -9,12 +9,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderResponseDTO {
-
     private String id;
     private Long customerId;
     private List<OrderItemDTO> items;
     private double total;
     private LocalDateTime orderDate;
     private OrderStatus status;
+    private String paymentId;
 }
-

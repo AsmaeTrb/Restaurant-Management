@@ -10,14 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequestDTO {
-
-    @NotNull(message = "Customer ID est obligatoire")
-    private Long customerId;
-
-    @NotEmpty(message = "La commande doit contenir au moins un plat")
-    private List<OrderItemDTO> items;
-
-    @NotNull(message = "Le statut de la commande est obligatoire")
-    private OrderStatus status; // PENDING, CONFIRMED, CANCELLED
+    @NotEmpty private List<OrderItemDTO> items;
 }
+
 

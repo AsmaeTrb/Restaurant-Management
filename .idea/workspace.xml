@@ -6,14 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="df858abd-dc03-4ec7-9d0c-55baa551c7a1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Configuration/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Controller/CartController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartResponseDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Entity/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Entity/Cart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Mapper/CartMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Mapper/CartMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Repository/CartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Repository/CartRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gateway-Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Gateway-Service/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,33 +41,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Spring Boot.CartServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.ConfigurationServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.DiscoveryServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.GatewayServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.MenuServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.OrderserviceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.CartServiceApplication.executor": "Run",
+    "Spring Boot.ConfigurationServiceApplication.executor": "Run",
+    "Spring Boot.DiscoveryServiceApplication.executor": "Run",
+    "Spring Boot.GatewayServiceApplication.executor": "Run",
+    "Spring Boot.MenuServiceApplication.executor": "Run",
+    "Spring Boot.OrderserviceApplication.executor": "Run",
+    "Spring Boot.UserServiceApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/asmae/OneDrive/Bureau/Restaurant-Management",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -82,7 +83,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.CartServiceApplication">
+  <component name="RunManager" selected="Spring Boot.MenuServiceApplication">
     <configuration name="CartServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="Cart-Service" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.cartservice.CartServiceApplication" />
@@ -151,7 +152,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1768948639813</updated>
-      <workItem from="1768948646903" duration="9604000" />
+      <workItem from="1768948646903" duration="19587000" />
+      <workItem from="1769029506109" duration="82000" />
+      <workItem from="1769044734886" duration="899000" />
     </task>
     <servers />
   </component>
@@ -170,6 +173,11 @@
           <url>file://$PROJECT_DIR$/menu-service/src/main/java/com/restaurant/menuservice/controller/PlatController.java</url>
           <line>14</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Discovery-Service/src/main/java/org/example/discoveryservice/DiscoveryServiceApplication.java</url>
+          <line>8</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

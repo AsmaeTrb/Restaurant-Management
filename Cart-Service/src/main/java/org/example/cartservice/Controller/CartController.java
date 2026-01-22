@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "Gestion des Paniers", description = "API pour gérer les paniers des utilisateurs connectés")
 public class CartController {
-
     private final CartService cartService;
-
-    // ========== ENDPOINTS PRINCIPAUX (avec JWT) ==========
-
     @Operation(
             summary = "Récupérer le panier de l'utilisateur",
             description = "Retourne le panier de l'utilisateur authentifié",
@@ -140,6 +137,20 @@ public class CartController {
         String userId = jwt.getSubject();
         Long cartId = cartService.findCartIdByCustomerId(userId);
         return cartService.clearCart(cartId);
+    }
+    @Operation(
+            summary = "Fusionner les paniers",
+            description = "Fusionne le panier de session avec le panier utilisateur lors de la connexion",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @PostMapping("/merge")
+    public CartResponseDTO mergeCarts(
+            @Parameter(hidden = true)
+            @AuthenticationPrincipal Jwt jwt,
+            @Parameter(description = "ID de session à fusionner (header X-Session-Id)", required = true)
+            @RequestHeader("X-Session-Id") String sessionId) {
+        String userId = jwt.getSubject();
+        return cartService.mergeCarts(sessionId, userId);
     }
 
 }
