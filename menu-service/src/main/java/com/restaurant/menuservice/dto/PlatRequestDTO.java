@@ -12,5 +12,7 @@ public class PlatRequestDTO {
     private boolean disponible;
     private Long categorieId;
     private String imageUrl; // ← AJOUTEZ CETTE LIGNE
+    private Integer initialQuantity; // ✅ nouveau champ
+
 
 }

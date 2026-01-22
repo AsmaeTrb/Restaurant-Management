@@ -11,5 +11,8 @@ public class PlatResponseDTO {
     private boolean disponible;
     private String categorieNom;
     private String imageUrl; // ← AJOUTEZ CETTE LIGNE
+    private Integer stockQuantity; // ← AJOUT: quantité en stock
+    private Boolean stockAvailable; // ← AJOUT: disponibilité du stock
+
 
 }
