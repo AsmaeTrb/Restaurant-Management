@@ -1,7 +1,5 @@
 package com.restaurant.payment_service.entity;
 
-
-
 import com.restaurant.payment_service.enums.PaymentMethod;
 import com.restaurant.payment_service.enums.PaymentStatus;
 import jakarta.persistence.*;
@@ -10,7 +8,6 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-// entity/Payment.java
 @Entity
 @Table(name = "payments")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
@@ -35,6 +32,9 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PaymentStatus status;
+
+    @Column(nullable = false) // AJOUTER CETTE LIGNE
+    private Long userId; // AJOUTER CETTE LIGNE
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

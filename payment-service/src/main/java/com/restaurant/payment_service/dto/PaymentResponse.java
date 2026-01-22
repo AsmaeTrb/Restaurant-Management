@@ -17,5 +17,7 @@ public class PaymentResponse {
     private Double amount;
     private String currency;
     private PaymentStatus status;
+    private Long userId; // AJOUTEZ CETTE LIGNE
+
 }
 

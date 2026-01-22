@@ -5,9 +5,7 @@ import com.restaurant.payment_service.dto.PaymentResponse;
 import com.restaurant.payment_service.entity.Payment;
 import com.restaurant.payment_service.enums.PaymentStatus;
 import com.restaurant.payment_service.repository.PaymentRepository;
-import com.restaurant.payment_service.exception.PaymentAlreadyExistsException;
-import com.restaurant.payment_service.exception.PaymentNotFoundException;
-import com.restaurant.payment_service.exception.PaymentAlreadyProcessedException;
+import com.restaurant.payment_service.exception.*;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,9 +16,10 @@ public class PaymentService {
 
     public PaymentService(PaymentRepository repo) { this.repo = repo; }
 
-    public PaymentResponse create(CreatePaymentRequest req) {
+    // Ajouter userId en paramètre
+    public PaymentResponse create(CreatePaymentRequest req, Long userId) {
         repo.findByOrderId(req.getOrderId()).ifPresent(p -> {
-            throw new RuntimeException("Payment already exists for orderId=" + req.getOrderId());
+            throw new PaymentAlreadyExistsException("Payment already exists for orderId=" + req.getOrderId());
         });
 
         Payment payment = Payment.builder()
@@ -29,35 +28,58 @@ public class PaymentService {
                 .currency(req.getCurrency())
                 .paymentMethod(req.getPaymentMethod())
                 .status(PaymentStatus.PENDING)
+                .userId(userId) // Sauvegarder userId
                 .build();
 
         return toResponse(repo.save(payment));
     }
 
-    public PaymentResponse confirm(String paymentId, PaymentStatus status) {
+    // Garder userId en paramètre
+    public PaymentResponse confirm(String paymentId, PaymentStatus status, Long userId) {
         Payment payment = repo.findById(UUID.fromString(paymentId))
-                .orElseThrow(() -> new RuntimeException("Payment not found"));
+                .orElseThrow(() -> new PaymentNotFoundException("Payment not found"));
+
+        // Vérifier que le payment appartient à l'utilisateur
+        if (!payment.getUserId().equals(userId)) {
+            throw new UnauthorizedPaymentAccessException("Not authorized to confirm this payment");
+        }
 
         if (payment.getStatus() != PaymentStatus.PENDING) {
-            throw new RuntimeException("Payment already processed");
+            throw new PaymentAlreadyProcessedException("Payment already processed");
         }
 
         if (status == PaymentStatus.PENDING) {
-            throw new RuntimeException("Invalid status: PENDING");
+            throw new IllegalArgumentException("Invalid status: PENDING");
         }
 
         payment.setStatus(status);
         return toResponse(repo.save(payment));
     }
 
-    public PaymentResponse getByOrderId(String orderId) {
-        return toResponse(repo.findByOrderId(orderId)
-                .orElseThrow(() -> new RuntimeException("Payment not found for orderId=" + orderId)));
+    // Ajouter userId en paramètre
+    public PaymentResponse getByOrderId(String orderId, Long userId) {
+        Payment payment = repo.findByOrderId(orderId)
+                .orElseThrow(() -> new PaymentNotFoundException("Payment not found for orderId=" + orderId));
+
+        // Vérifier que le payment appartient à l'utilisateur
+        if (!payment.getUserId().equals(userId)) {
+            throw new UnauthorizedPaymentAccessException("Not authorized to access this payment");
+        }
+
+        return toResponse(payment);
     }
 
-    public PaymentResponse getById(String paymentId) {
-        return toResponse(repo.findById(UUID.fromString(paymentId))
-                .orElseThrow(() -> new RuntimeException("Payment not found")));
+    // Ajouter userId en paramètre
+    public PaymentResponse getById(String paymentId, Long userId) {
+        Payment payment = repo.findById(UUID.fromString(paymentId))
+                .orElseThrow(() -> new PaymentNotFoundException("Payment not found"));
+
+        // Vérifier que le payment appartient à l'utilisateur
+        if (!payment.getUserId().equals(userId)) {
+            throw new UnauthorizedPaymentAccessException("Not authorized to access this payment");
+        }
+
+        return toResponse(payment);
     }
 
     private PaymentResponse toResponse(Payment p) {
@@ -67,6 +89,7 @@ public class PaymentService {
                 .amount(p.getAmount())
                 .currency(p.getCurrency())
                 .status(p.getStatus())
+                .userId(p.getUserId()) // AJOUTEZ CETTE LIGNE
                 .build();
     }
 }

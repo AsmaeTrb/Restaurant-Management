@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "inventory-service", url = "http://localhost:1700")
 public interface StockClient {
 
-    @PostMapping("/stocks/decrease")
+    @PutMapping("/stocks/decrease")
     void decreaseStock(@RequestBody StockDecreaseRequest request);
 }
 

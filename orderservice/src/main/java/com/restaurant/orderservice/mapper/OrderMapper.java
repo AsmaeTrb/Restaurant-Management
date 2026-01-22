@@ -81,7 +81,7 @@ public class OrderMapper {
         return convertItemsToJson(orderItems);
     }
 
-    private static List<OrderItemDTO> convertJsonToItems(List<String> itemsJson) {
+    public static List<OrderItemDTO> convertJsonToItems(List<String> itemsJson) {
         return itemsJson.stream()
                 .map(json -> {
                     try {

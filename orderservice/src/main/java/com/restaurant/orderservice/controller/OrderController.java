@@ -32,10 +32,11 @@ public class OrderController {
     @PutMapping("/{orderId}/payment")
     public OrderResponseDTO confirmPayment(
             @AuthenticationPrincipal Jwt jwt,
+            @RequestHeader("Authorization") String authorization,
             @PathVariable String orderId,
             @Valid @RequestBody ConfirmPaymentRequestDTO req
     ) {
-        return service.confirmPayment(orderId, req);
+        return service.confirmPayment(jwt,orderId, authorization, req);
     }
 
     @GetMapping
