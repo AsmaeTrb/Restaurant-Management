@@ -1,31 +1,37 @@
 package org.example.userservice.Repository;
+
 import org.example.userservice.Entity.Role;
 import org.example.userservice.Entity.User;
 import org.example.userservice.Configuration.RsaKeys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @ActiveProfiles("test")
 class UserRepositoryTest {
 
     // 🔐 IMPORTANT : mock de RsaKeys pour éviter les erreurs de sécurité
-    @MockitoBean
+    @MockBean
     private RsaKeys rsaKeys;
 
     @Autowired
     private UserRepository userRepository;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         User u = new User();
         u.setFirstName("Test");
         u.setLastName("User");
@@ -37,7 +43,6 @@ class UserRepositoryTest {
 
         userRepository.save(u);
     }
-
 
     // ==========================
     // TEST findByEmail
