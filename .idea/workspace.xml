@@ -4,7 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df858abd-dc03-4ec7-9d0c-55baa551c7a1" name="Changes" comment="" />
+    <list default="true" id="df858abd-dc03-4ec7-9d0c-55baa551c7a1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Controller/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartItemResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartItemResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/DishInfoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/DishInfoDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration-Service/Config-Deploy.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration-Service/Config-Deploy.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration-Service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration-Service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration-Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration-Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration-Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration-Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gateway-Service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gateway-Service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gateway-Service/Gateway-Deploy.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Gateway-Service/Gateway-Deploy.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gateway-Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Gateway-Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gateway-Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Gateway-Service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User-Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User-Service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User-Service/src/main/java/org/example/userservice/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User-Service/src/main/java/org/example/userservice/Controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User-Service/src/test/java/org/example/userservice/Repository/UserRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/User-Service/src/test/java/org/example/userservice/Repository/UserRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User-Service/src/test/java/resources/application-test.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User-Service/src/test/java/resources/application-test.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/Configuration/RsaKeys.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/Configuration/RsaKeys.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/Configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/Configuration/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/InventoryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/InventoryServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/client/MenuClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/client/MenuClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/controller/StockController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/resources/Keys/publicKey.pem" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/resources/Keys/publicKey.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/resources/templates/publicKey.pem" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/resources/templates/publicKey.pem" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/client/StockClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/client/StockClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/dto/CheckoutRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/dto/CheckoutRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/dto/OrderResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/dto/OrderResponseDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/entity/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/mapper/OrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/mapper/OrderMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/service/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/service/OrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service/src/main/java/com/restaurant/payment_service/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service/src/main/java/com/restaurant/payment_service/controller/PaymentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service/src/main/java/com/restaurant/payment_service/service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service/src/main/java/com/restaurant/payment_service/service/PaymentService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +50,12 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Exception" />
+        <option value="Dockerfile" />
+        <option value="Kubernetes Deployment" />
+        <option value="Enum" />
         <option value="Record" />
         <option value="Class" />
-        <option value="Exception" />
       </list>
     </option>
   </component>
@@ -43,6 +83,8 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;JUnit.UserRepositoryTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.UserServiceApplicationTests.executor&quot;: &quot;Run&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
     &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
@@ -63,7 +105,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/asmae/OneDrive/Bureau/Restaurant-Management&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/asmae/OneDrive/Bureau/inventory-service&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -86,10 +128,46 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.OrderserviceApplication">
-    <configuration name="CartServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.UserRepositoryTest">
+    <configuration name="UserRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="User-Service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.userservice.Repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example.userservice.Repository" />
+      <option name="MAIN_CLASS_NAME" value="org.example.userservice.Repository.UserRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="User-Service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.userservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example.userservice" />
+      <option name="MAIN_CLASS_NAME" value="org.example.userservice.UserServiceApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CartServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="Cart-Service" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.cartservice.CartServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.cartservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -101,9 +179,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DiscoveryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <configuration name="DiscoveryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="Discovery-Service" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.discoveryservice.DiscoveryServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.discoveryservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -115,9 +199,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MenuServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <configuration name="InventoryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="inventory-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.inventory_service.InventoryServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MenuServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="menu-service" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.restaurant.menuservice.MenuServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.restaurant.menuservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -145,6 +242,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.UserRepositoryTest" />
+        <item itemvalue="JUnit.UserServiceApplicationTests" />
+        <item itemvalue="Spring Boot.CartServiceApplication" />
+        <item itemvalue="Spring Boot.MenuServiceApplication" />
+        <item itemvalue="Spring Boot.DiscoveryServiceApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -167,7 +273,7 @@
       <workItem from="1769044734886" duration="899000" />
       <workItem from="1769053806620" duration="5326000" />
       <workItem from="1769093422842" duration="9827000" />
-      <workItem from="1769103738695" duration="4543000" />
+      <workItem from="1769103738695" duration="53195000" />
     </task>
     <servers />
   </component>
@@ -191,6 +297,29 @@
           <url>file://$PROJECT_DIR$/Discovery-Service/src/main/java/org/example/discoveryservice/DiscoveryServiceApplication.java</url>
           <line>8</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Service/CartService.java</url>
+          <line>126</line>
+          <properties>
+            <option name="lambda-ordinal" value="0" />
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Discovery-Service/src/main/java/org/example/discoveryservice/DiscoveryServiceApplication.java</url>
+          <line>7</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/menu-service/src/main/java/com/restaurant/menuservice/MenuServiceApplication.java</url>
+          <line>8</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/CartServiceApplication.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

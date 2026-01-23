@@ -13,4 +13,6 @@ public class CartItemResponseDTO {
     private boolean available;
     private double subtotal;
     private String imageUrl;
+    private Integer stockQuantity;     // ✅
+    private Boolean stockAvailable;
 }

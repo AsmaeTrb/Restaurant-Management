@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
@@ -29,5 +30,8 @@ public class Order {
 
     // ✅ important : stocker paymentId
     private String paymentId;
+    // ✅ NEW: retrait
+    private LocalDate pickupDate;  // ex: 2026-01-22
+    private String pickupSlot;     // ex: "10:00-12:00"
 }
 

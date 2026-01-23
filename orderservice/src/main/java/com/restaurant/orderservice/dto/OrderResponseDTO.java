@@ -2,6 +2,7 @@ package com.restaurant.orderservice.dto;
 import com.restaurant.orderservice.entity.OrderStatus;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,4 +17,6 @@ public class OrderResponseDTO {
     private LocalDateTime orderDate;
     private OrderStatus status;
     private String paymentId;
+    private LocalDate pickupDate;
+    private String pickupSlot;
 }

@@ -1,4 +1,9 @@
 package com.example.inventory_service.Configuration;
 
-public record RsaKeys() {
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.security.interfaces.RSAPublicKey;
+
+@ConfigurationProperties(prefix = "rsa")
+public record RsaKeys(RSAPublicKey publicKey) {
 }

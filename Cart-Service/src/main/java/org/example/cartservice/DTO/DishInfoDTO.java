@@ -11,5 +11,7 @@ public class DishInfoDTO {
     private boolean disponible;
     private String categorieNom;
     private String imageUrl; // ← AJOUTEZ CETTE LIGNE
+    private Integer stockQuantity;     // ✅
+    private Boolean stockAvailable;    // ✅
 
 }

@@ -1,26 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: title
+  name: restaurant-config-service
   labels:
-    app: title
+    app: restaurant-config-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: title
+      app: restaurant-config-service
   template:
     metadata:
-      name: title
       labels:
-        app: title
+        app: restaurant-config-service
     spec:
       containers:
-        - name: title
-          image: nginx
-          imagePullPolicy: IfNotPresent
+        - name: restaurant-config-service
+          image: restaurant-config-service:latest
           ports:
-            - containerPort: 80
-              protocol: TCP
-      restartPolicy: Always
-      
+            - containerPort: 9999
+          env:
+            - name: DISCOVERY_SERVICE_URL
+              value: http://restaurant-discovery-service:8761/eureka
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 9999
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restaurant-config-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: restaurant-config-service
+  ports:
+    - port: 9999
+      targetPort: 9999

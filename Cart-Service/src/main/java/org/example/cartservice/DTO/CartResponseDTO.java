@@ -12,4 +12,5 @@ public class CartResponseDTO {
     private double total;
     private int totalItems;
     private List<CartItemResponseDTO> items;
+
 }

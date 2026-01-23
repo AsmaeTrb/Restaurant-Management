@@ -22,7 +22,6 @@ public class PaymentController {
         Long userId = jwt.getClaim("userId");
         return service.create(req, userId); // Passer userId au service
     }
-
     @PutMapping("/{paymentId}/confirm")
     public PaymentResponse confirm(@AuthenticationPrincipal Jwt jwt,
                                    @PathVariable String paymentId,
@@ -30,7 +29,6 @@ public class PaymentController {
         Long userId = jwt.getClaim("userId");
         return service.confirm(paymentId, req.getStatus(), userId);
     }
-
     @GetMapping("/order/{orderId}")
     public PaymentResponse getByOrderId(@AuthenticationPrincipal Jwt jwt,
                                         @PathVariable String orderId) {

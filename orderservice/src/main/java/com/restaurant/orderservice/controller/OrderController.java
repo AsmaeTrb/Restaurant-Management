@@ -1,5 +1,6 @@
 package com.restaurant.orderservice.controller;
 
+import com.restaurant.orderservice.dto.CheckoutRequestDTO;
 import com.restaurant.orderservice.dto.ConfirmPaymentRequestDTO;
 import com.restaurant.orderservice.dto.OrderResponseDTO;
 import com.restaurant.orderservice.service.OrderServiceImpl;
@@ -20,15 +21,19 @@ public class OrderController {
     private final OrderServiceImpl service;
 
     // ✅ SEUL endpoint de création (depuis panier)
+
     @PostMapping
-    public ResponseEntity<OrderResponseDTO> createOrder(
-            @AuthenticationPrincipal Jwt jwt,
-            @RequestHeader("Authorization") String authorization
-    ) {
-        return ResponseEntity.status(201)
-                .body(service.createOrder(jwt, authorization));
+    public OrderResponseDTO checkout(@AuthenticationPrincipal Jwt jwt,
+                                     @RequestHeader("Authorization") String authorization,
+                                     @Valid @RequestBody CheckoutRequestDTO req) {
+        return service.createOrder(jwt, authorization, req);
     }
 
+    @GetMapping("/{orderId}")
+    public OrderResponseDTO getById(@AuthenticationPrincipal Jwt jwt,
+                                    @PathVariable String orderId) {
+        return service.getById(jwt, orderId);
+    }
     @PutMapping("/{orderId}/payment")
     public OrderResponseDTO confirmPayment(
             @AuthenticationPrincipal Jwt jwt,

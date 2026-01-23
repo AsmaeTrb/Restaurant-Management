@@ -1,156 +1,147 @@
 package org.example.cartservice.Controller;
 
+import jakarta.validation.Valid;
 import org.example.cartservice.DTO.*;
 import org.example.cartservice.Service.CartService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.headers.Header;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/carts")
-@RequiredArgsConstructor
-@Tag(name = "Gestion des Paniers", description = "API pour gérer les paniers des utilisateurs connectés")
 public class CartController {
     private final CartService cartService;
-    @Operation(
-            summary = "Récupérer le panier de l'utilisateur",
-            description = "Retourne le panier de l'utilisateur authentifié",
-            security = @SecurityRequirement(name = "bearerAuth")
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Panier trouvé",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CartResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Panier non trouvé pour cet utilisateur"
-            )
-    })
+public CartController(CartService cartService) {
+    this.cartService = cartService;
+}
+    // Méthode utilitaire pour DEBUG
+    private String extractUserId(Jwt jwt) {
+        System.out.println("=== JWT DEBUG ===");
+
+        // 1. Afficher TOUS les claims
+        System.out.println("All JWT claims:");
+        jwt.getClaims().forEach((key, value) -> {
+            System.out.println("  " + key + " = " + value + " (type: " +
+                    (value != null ? value.getClass().getSimpleName() : "null") + ")");
+        });
+
+        // 2. Essayer différents claims
+        String userId = null;
+
+        // Essayer "userId"
+        Object userIdClaim = jwt.getClaim("userId");
+        System.out.println("Claim 'userId': " + userIdClaim);
+
+        if (userIdClaim != null) {
+            userId = userIdClaim.toString();
+            System.out.println("✅ Using userId from claim: " + userId);
+        }
+        // Essayer "sub" (subject)
+        else if (jwt.getSubject() != null) {
+            userId = jwt.getSubject();
+            System.out.println("⚠️ Using subject as userId: " + userId);
+        }
+        // Essayer "email"
+        else {
+            Object emailClaim = jwt.getClaim("email");
+            if (emailClaim != null) {
+                userId = emailClaim.toString();
+                System.out.println("⚠️ Using email as userId: " + userId);
+            } else {
+                System.err.println("❌ ERROR: No userId found in JWT!");
+                userId = "unknown";
+            }
+        }
+
+        System.out.println("Final userId: " + userId);
+        return userId;
+    }
+
     @GetMapping
-    public CartResponseDTO getCart(
-            @Parameter(hidden = true)
-            @AuthenticationPrincipal Jwt jwt) {
-        String userId = jwt.getSubject();
+    public CartResponseDTO getCart(@AuthenticationPrincipal Jwt jwt) {
+        String userId = extractUserId(jwt);
         return cartService.getCartByCustomerId(userId);
     }
 
-    @Operation(
-            summary = "Ajouter un item au panier",
-            description = "Ajoute un plat au panier de l'utilisateur connecté",
-            security = @SecurityRequirement(name = "bearerAuth")
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Item ajouté au panier",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CartResponseDTO.class))
-            )
-    })
     @PostMapping("/items")
     public CartResponseDTO addItem(
             @AuthenticationPrincipal Jwt jwt,
             @Valid @RequestBody CartItemRequestDTO request) {
-        String userId = jwt.getSubject();
+
+        System.out.println("=== ADD ITEM ===");
+        System.out.println("Request: platId=" + request.getPlatId() + ", quantity=" + request.getQuantity());
+
+        String userId = extractUserId(jwt);
         Long cartId = cartService.findCartIdByCustomerId(userId);
+
+        System.out.println("Cart ID: " + cartId);
+        System.out.println("Calling addItemToCart...");
+
         return cartService.addItemToCart(cartId, request);
     }
 
-    @Operation(
-            summary = "Mettre à jour la quantité d'un item",
-            description = "Modifie la quantité d'un item dans le panier",
-            security = @SecurityRequirement(name = "bearerAuth")
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Quantité mise à jour",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CartResponseDTO.class))
-            )
-    })
     @PutMapping("/items/{itemId}")
     public CartResponseDTO updateItemQuantity(
             @AuthenticationPrincipal Jwt jwt,
-            @Parameter(description = "ID de l'item", required = true)
             @PathVariable Long itemId,
-            @Parameter(description = "Nouvelle quantité", required = true)
             @RequestParam Integer quantity) {
-        String userId = jwt.getSubject();
+        String userId = extractUserId(jwt);
         Long cartId = cartService.findCartIdByCustomerId(userId);
         return cartService.updateItemQuantity(cartId, itemId, quantity);
     }
 
-    @Operation(
-            summary = "Supprimer un item du panier",
-            description = "Retire un item spécifique du panier",
-            security = @SecurityRequirement(name = "bearerAuth")
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Item supprimé avec succès",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CartResponseDTO.class))
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Panier ou item non trouvé"
-            )
-    })
     @DeleteMapping("/items/{itemId}")
     public CartResponseDTO removeItem(
             @AuthenticationPrincipal Jwt jwt,
-            @Parameter(description = "ID de l'item à supprimer", required = true)
             @PathVariable Long itemId) {
-        String userId = jwt.getSubject();
+        String userId = extractUserId(jwt);
         Long cartId = cartService.findCartIdByCustomerId(userId);
         return cartService.removeItem(cartId, itemId);
     }
 
-    @Operation(
-            summary = "Vider le panier",
-            description = "Supprime tous les items du panier",
-            security = @SecurityRequirement(name = "bearerAuth")
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Panier vidé avec succès",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CartResponseDTO.class))
-            )
-    })
     @DeleteMapping("/clear")
-    public CartResponseDTO clearCart(
-            @AuthenticationPrincipal Jwt jwt) {
-        String userId = jwt.getSubject();
+    public CartResponseDTO clearCart(@AuthenticationPrincipal Jwt jwt) {
+        String userId = extractUserId(jwt);
         Long cartId = cartService.findCartIdByCustomerId(userId);
         return cartService.clearCart(cartId);
     }
-    @Operation(
-            summary = "Fusionner les paniers",
-            description = "Fusionne le panier de session avec le panier utilisateur lors de la connexion",
-            security = @SecurityRequirement(name = "bearerAuth")
-    )
+
     @PostMapping("/merge")
     public CartResponseDTO mergeCarts(
-            @Parameter(hidden = true)
             @AuthenticationPrincipal Jwt jwt,
-            @Parameter(description = "ID de session à fusionner (header X-Session-Id)", required = true)
             @RequestHeader("X-Session-Id") String sessionId) {
-        String userId = jwt.getSubject();
-        return cartService.mergeCarts(sessionId, userId);
-    }
 
+        System.out.println("=== MERGE CART DEBUG ===");
+
+        // 1. Vérifier le header
+        System.out.println("Session ID from header: " + sessionId);
+        if (sessionId == null || sessionId.isEmpty()) {
+            System.err.println("❌ ERROR: X-Session-Id header is missing or empty!");
+            throw new IllegalArgumentException("X-Session-Id header is required");
+        }
+
+        // 2. Vérifier le JWT
+        System.out.println("JWT Subject: " + jwt.getSubject());
+        System.out.println("All JWT claims:");
+        jwt.getClaims().forEach((k, v) -> System.out.println("  " + k + " = " + v));
+
+        // 3. Utiliser la MÊME méthode pour extraire l'userId
+        String userId = extractUserId(jwt); // ← CHANGER ICI
+        System.out.println("Using userId: " + userId);
+
+        // 4. Appeler le service
+        try {
+            System.out.println("Calling cartService.mergeCarts(" + sessionId + ", " + userId + ")");
+            CartResponseDTO result = cartService.mergeCarts(sessionId, userId);
+            System.out.println("✅ Merge successful!");
+            System.out.println("Result cart ID: " + result.getId());
+            System.out.println("Result items: " + result.getItems().size());
+            return result;
+        } catch (Exception e) {
+            System.err.println("❌ ERROR in mergeCarts: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

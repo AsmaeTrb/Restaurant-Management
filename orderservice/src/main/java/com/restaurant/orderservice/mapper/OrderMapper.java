@@ -6,6 +6,7 @@ import com.restaurant.orderservice.dto.*;
 import com.restaurant.orderservice.entity.Order;
 import com.restaurant.orderservice.entity.OrderStatus;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +28,8 @@ public class OrderMapper {
     }
 
     // ================= CART → ENTITY =================
-    public static Order cartToEntity(List<CartItemResponseDTO> cartItems, Long customerId) {
+    public static Order cartToEntity(List<CartItemResponseDTO> cartItems, Long customerId, LocalDate pickupDate,
+                                     String pickupSlot) {
         Order order = new Order();
         order.setId(UUID.randomUUID().toString());
         order.setCustomerId(customerId);
@@ -36,6 +38,8 @@ public class OrderMapper {
         order.setOrderDate(LocalDateTime.now());
         order.setStatus(OrderStatus.PENDING);
         order.setPaymentId(null);
+        order.setPickupDate(pickupDate);
+        order.setPickupSlot(pickupSlot);
         return order;
     }
 
@@ -48,7 +52,9 @@ public class OrderMapper {
                 order.getTotal(),
                 order.getOrderDate(),
                 order.getStatus(),
-                order.getPaymentId()
+                order.getPaymentId(),
+                order.getPickupDate(),   // ✅ NEW
+                order.getPickupSlot()    // ✅ NEW
         );
     }
 

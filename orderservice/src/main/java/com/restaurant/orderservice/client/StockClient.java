@@ -1,7 +1,5 @@
 package com.restaurant.orderservice.client;
 
-
-
 import com.restaurant.orderservice.dto.StockDecreaseRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 public interface StockClient {
 
     @PutMapping("/stocks/decrease")
-    void decreaseStock(@RequestBody StockDecreaseRequest request);
+    void decreaseStock(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody StockDecreaseRequest request
+    );
 }
-

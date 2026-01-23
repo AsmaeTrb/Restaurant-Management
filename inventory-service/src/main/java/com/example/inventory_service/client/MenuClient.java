@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(
         name = "menu-service",
-        url = "http://localhost:1800"
+        url = "http://localhost:8010"
 )
 public interface MenuClient {
 

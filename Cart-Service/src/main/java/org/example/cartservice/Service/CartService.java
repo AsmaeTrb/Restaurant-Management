@@ -70,10 +70,34 @@ public class CartService {
             throw new DishUnavailableException(dishInfo.getNom(), dishInfo.getId());
         }
 
+        // ✅ STOCK CHECK (si ton Menu-Service renvoie stockQuantity / stockAvailable)
+        Integer stockQty = dishInfo.getStockQuantity();
+        Boolean stockAvailable = dishInfo.getStockAvailable();
+
+        if (Boolean.FALSE.equals(stockAvailable) || stockQty == null || stockQty <= 0) {
+            throw new IllegalArgumentException("Stock insuffisant pour ce plat");
+        }
+
+        // quantité déjà dans le panier ?
+        CartItem existing = cart.getItems().stream()
+                .filter(i -> i.getPlatId().equals(request.getPlatId()))
+                .findFirst()
+                .orElse(null);
+
+        int currentQty = existing != null ? existing.getQuantity() : 0;
+        int requestedQty = request.getQuantity();
+        int finalQty = currentQty + requestedQty;
+
+        if (finalQty > stockQty) {
+            throw new IllegalArgumentException(
+                    "Stock insuffisant. Stock disponible: " + stockQty + ", dans panier: " + currentQty
+            );
+        }
+
         // ✅ UTILISATION DU MAPPER
         CartItem newItem = cartMapper.toCartItem(request, dishInfo);
 
-        // la relation + logique métier
+        // relation + logique métier
         cart.addItem(newItem);
 
         Cart savedCart = cartRepository.save(cart);
@@ -130,12 +154,34 @@ public class CartService {
                 .findFirst()
                 .orElseThrow(() -> new CartItemNotFoundException(itemId));
 
+        // ✅ récupérer stock depuis menu-service
+        DishInfoDTO dishInfo;
+        try {
+            dishInfo = menuFeignClient.getDishInfo(item.getPlatId());
+        } catch (Exception e) {
+            throw new DishNotFoundException(item.getPlatId());
+        }
+
+        Integer stockQty = dishInfo.getStockQuantity();
+        Boolean stockAvailable = dishInfo.getStockAvailable();
+
+        if (Boolean.FALSE.equals(stockAvailable) || stockQty == null || stockQty <= 0) {
+            throw new IllegalArgumentException("Stock insuffisant pour ce plat");
+        }
+
+        if (quantity > stockQty) {
+            throw new IllegalArgumentException(
+                    "Quantité demandée (" + quantity + ") dépasse le stock (" + stockQty + ")"
+            );
+        }
+
         item.setQuantity(quantity);
         cart.calculateTotal();
 
         Cart savedCart = cartRepository.save(cart);
         return cartMapper.toResponseDTO(savedCart);
     }
+
     public void deleteCart(Long cartId) {
         if (!cartRepository.existsById(cartId)) {
             throw new CartNotFoundException(cartId);
@@ -171,34 +217,47 @@ public class CartService {
 
         // 5. Fusionner les items
         for (CartItem sessionItem : sessionCart.getItems()) {
-            // Chercher si le plat existe déjà dans le panier user
+
+            // 1) récupérer stock depuis menu-service
+            DishInfoDTO dishInfo;
+            try {
+                dishInfo = menuFeignClient.getDishInfo(sessionItem.getPlatId());
+            } catch (Exception e) {
+                throw new DishNotFoundException(sessionItem.getPlatId());
+            }
+
+            Integer stockQty = dishInfo.getStockQuantity();
+            Boolean stockAvailable = dishInfo.getStockAvailable();
+
+            if (Boolean.FALSE.equals(stockAvailable) || stockQty == null || stockQty <= 0) {
+                throw new IllegalArgumentException("Stock insuffisant pour platId=" + sessionItem.getPlatId());
+            }
+
+            // 2) trouver item existant dans user cart
             CartItem existing = userCart.getItems().stream()
                     .filter(i -> i.getPlatId() != null && i.getPlatId().equals(sessionItem.getPlatId()))
                     .findFirst()
                     .orElse(null);
 
-            if (existing != null) {
-                // Additionner les quantités
-                existing.setQuantity(existing.getQuantity() + sessionItem.getQuantity());
+            int currentQty = existing != null ? existing.getQuantity() : 0;
+            int finalQty = currentQty + sessionItem.getQuantity();
 
-                // Mettre à jour les infos
+            if (finalQty > stockQty) {
+                throw new IllegalArgumentException(
+                        "Stock insuffisant pour platId=" + sessionItem.getPlatId() +
+                                " stock=" + stockQty + " demandé=" + finalQty
+                );
+            }
+
+            if (existing != null) {
+                existing.setQuantity(finalQty);
                 existing.setUnitPrice(sessionItem.getUnitPrice());
                 existing.setDishName(sessionItem.getDishName());
                 existing.setAvailable(sessionItem.isAvailable());
                 existing.setImageUrl(sessionItem.getImageUrl());
             } else {
-                // Créer un nouvel item
-                CartItem newItem = new CartItem();
-                newItem.setPlatId(sessionItem.getPlatId());
-                newItem.setDishName(sessionItem.getDishName());
-                newItem.setUnitPrice(sessionItem.getUnitPrice());
-                newItem.setQuantity(sessionItem.getQuantity());
-                newItem.setAvailable(sessionItem.isAvailable());
-                newItem.setImageUrl(sessionItem.getImageUrl());
-
-                // Lier au panier
-                newItem.setCart(userCart);
-                userCart.getItems().add(newItem);
+                sessionItem.setCart(userCart);
+                userCart.getItems().add(sessionItem); // ou recréer un new item si tu veux
             }
         }
 

@@ -8,6 +8,7 @@ import com.example.inventory_service.mapper.StockMapper;
 import com.example.inventory_service.service.StockService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class StockController {
 
     private final StockService stockService;
-
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     @PostMapping
     public StockResponseDTO createOrUpdate(@Valid @RequestBody StockRequestDTO dto) {
         return StockMapper.toResponse(stockService.createOrUpdateStock(dto));
@@ -39,6 +40,7 @@ public class StockController {
     }
 
     // ✅ APPELÉ PAR ORDER SERVICE VIA FEIGN
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_ADMIN')")
     @PutMapping("/decrease")
     public void decreaseStock(@Valid @RequestBody StockDecreaseDTO dto) {
         stockService.decreaseStock(dto.getPlatId(), dto.getQuantity());
