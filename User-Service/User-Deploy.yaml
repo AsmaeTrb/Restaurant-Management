@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurant-user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restaurant-user-service
+  template:
+    metadata:
+      labels:
+        app: restaurant-user-service
+    spec:
+      containers:
+        - name: restaurant-user-service
+          image: restaurant-user-service:latest
+          ports:
+            - containerPort: 9090
+          env:
+            - name: DISCOVERY_SERVICE_URL
+              value: http://restaurant-discovery-service:8761/eureka
+            - name: CONFIG_SERVICE_URL
+              value: http://restaurant-config-service:9999
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 9090
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restaurant-user-service
+spec:
+  type: ClusterIP
+  selector:
+    app: restaurant-user-service
+  ports:
+    - port: 9090
+      targetPort: 9090
