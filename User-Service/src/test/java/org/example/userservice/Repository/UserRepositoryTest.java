@@ -1,37 +1,32 @@
 package org.example.userservice.Repository;
 
+import org.example.userservice.Configuration.RsaKeys;
 import org.example.userservice.Entity.Role;
 import org.example.userservice.Entity.User;
-import org.example.userservice.Configuration.RsaKeys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @ActiveProfiles("test")
 class UserRepositoryTest {
 
-    // 🔐 IMPORTANT : mock de RsaKeys pour éviter les erreurs de sécurité
     @MockBean
-    private RsaKeys rsaKeys;
+    private RsaKeys rsaKeys; // ✅ مهم باش مايتحمّلاش Security config
 
     @Autowired
     private UserRepository userRepository;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         User u = new User();
         u.setFirstName("Test");
         u.setLastName("User");
@@ -39,7 +34,7 @@ class UserRepositoryTest {
         u.setPassword("password");
         u.setPhone("0600000000");
         u.setAddress("Casablanca");
-        u.setRole(Role.CLIENT);
+        u.setRole(Role.CLIENT); // بدلها إلا عندك CLIENT/USER...
 
         userRepository.save(u);
     }
@@ -49,26 +44,18 @@ class UserRepositoryTest {
     // ==========================
     @Test
     void findUserByEmail_success() {
-        // GIVEN
         String email = "test@mail.com";
 
-        // WHEN
         Optional<User> result = userRepository.findByEmail(email);
 
-        // THEN
         assertThat(result).isPresent();
         assertThat(result.get().getEmail()).isEqualTo(email);
     }
 
     @Test
     void findUserByEmail_notFound() {
-        // GIVEN
-        String email = "unknown@mail.com";
+        Optional<User> result = userRepository.findByEmail("unknown@mail.com");
 
-        // WHEN
-        Optional<User> result = userRepository.findByEmail(email);
-
-        // THEN
         assertThat(result).isEmpty();
     }
 
@@ -77,19 +64,15 @@ class UserRepositoryTest {
     // ==========================
     @Test
     void existsByEmail_true() {
-        // WHEN
         Boolean exists = userRepository.existsByEmail("test@mail.com");
 
-        // THEN
         assertThat(exists).isTrue();
     }
 
     @Test
     void existsByEmail_false() {
-        // WHEN
         Boolean exists = userRepository.existsByEmail("fake@mail.com");
 
-        // THEN
         assertThat(exists).isFalse();
     }
 }
