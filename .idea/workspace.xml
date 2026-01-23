@@ -6,41 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="df858abd-dc03-4ec7-9d0c-55baa551c7a1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Controller/CartController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartItemResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartItemResponseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/CartResponseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/DishInfoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/DTO/DishInfoDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Cart-Service/src/main/java/org/example/cartservice/Service/CartService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration-Service/Config-Deploy.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration-Service/Config-Deploy.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration-Service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration-Service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration-Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration-Service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration-Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration-Service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gateway-Service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Gateway-Service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gateway-Service/Gateway-Deploy.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Gateway-Service/Gateway-Deploy.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Gateway-Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Gateway-Service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gateway-Service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Gateway-Service/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User-Service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/User-Service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User-Service/src/main/java/org/example/userservice/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/User-Service/src/main/java/org/example/userservice/Controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User-Service/src/test/java/org/example/userservice/Repository/UserRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/User-Service/src/test/java/org/example/userservice/Repository/UserRepositoryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/User-Service/src/test/java/resources/application-test.properties" beforeDir="false" afterPath="$PROJECT_DIR$/User-Service/src/test/java/resources/application-test.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/Configuration/RsaKeys.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/Configuration/RsaKeys.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/Configuration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/Configuration/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/InventoryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/InventoryServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/client/MenuClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/client/MenuClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/example/inventory_service/controller/StockController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/resources/Keys/publicKey.pem" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/resources/Keys/publicKey.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/resources/templates/publicKey.pem" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/resources/templates/publicKey.pem" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/client/StockClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/client/StockClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/dto/CheckoutRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/dto/CheckoutRequestDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/dto/OrderResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/dto/OrderResponseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/entity/Order.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/mapper/OrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/mapper/OrderMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/service/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/orderservice/src/main/java/com/restaurant/orderservice/service/OrderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment-service/src/main/java/com/restaurant/payment_service/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service/src/main/java/com/restaurant/payment_service/controller/PaymentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/payment-service/src/main/java/com/restaurant/payment_service/service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service/src/main/java/com/restaurant/payment_service/service/PaymentService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +96,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserRepositoryTest">
+  <component name="RunManager" selected="Spring Boot.DiscoveryServiceApplication">
     <configuration name="UserRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="User-Service" />
       <extension name="coverage">
@@ -244,11 +212,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.DiscoveryServiceApplication" />
         <item itemvalue="JUnit.UserRepositoryTest" />
         <item itemvalue="JUnit.UserServiceApplicationTests" />
         <item itemvalue="Spring Boot.CartServiceApplication" />
         <item itemvalue="Spring Boot.MenuServiceApplication" />
-        <item itemvalue="Spring Boot.DiscoveryServiceApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -273,7 +241,7 @@
       <workItem from="1769044734886" duration="899000" />
       <workItem from="1769053806620" duration="5326000" />
       <workItem from="1769093422842" duration="9827000" />
-      <workItem from="1769103738695" duration="53195000" />
+      <workItem from="1769103738695" duration="56207000" />
     </task>
     <servers />
   </component>
