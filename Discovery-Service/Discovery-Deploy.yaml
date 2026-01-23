@@ -1,26 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: title
+  name: restaurant-discovery-service
   labels:
-    app: title
+    app: restaurant-discovery-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: title
+      app: restaurant-discovery-service
   template:
     metadata:
-      name: title
       labels:
-        app: title
+        app: restaurant-discovery-service
     spec:
       containers:
-        - name: title
-          image: nginx
-          imagePullPolicy: IfNotPresent
+        - name: restaurant-discovery-service
+          image: restaurant-discovery-service:latest
           ports:
-            - containerPort: 80
-              protocol: TCP
-      restartPolicy: Always
-      
+            - containerPort: 8761
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8761
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restaurant-discovery-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: restaurant-discovery-service
+  ports:
+    - port: 8761
+      targetPort: 8761
