@@ -14,13 +14,11 @@ public class Promotion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private double pourcentage;
 
     private LocalDate dateDebut;
     private LocalDate dateFin;
 
-    @Column(nullable = false)
     private boolean active = true;
 
     @ManyToOne

@@ -14,15 +14,11 @@ public class Plat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String nom;
 
-    @Column(nullable = false)
     private double prix;
 
-    @Column(nullable = false)
     private boolean disponible;
-    @Column(name = "image_url")
     private String imageUrl; // Juste ajouter ce champ
 
     @ManyToOne
