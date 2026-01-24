@@ -6,7 +6,6 @@ import com.restaurant.menuservice.dto.PlatResponseDTO;
 import com.restaurant.menuservice.entity.Categorie;
 import com.restaurant.menuservice.entity.Plat;
 import com.restaurant.menuservice.exception.ResourceNotFoundException;
-import com.restaurant.menuservice.kafka.PlatProducer;
 import com.restaurant.menuservice.mapper.PlatMapper;
 import com.restaurant.menuservice.repository.CategorieRepository;
 import com.restaurant.menuservice.repository.PlatRepository;
@@ -20,15 +19,13 @@ public class PlatService {
 
     private final PlatRepository platRepository;
     private final CategorieRepository categorieRepository;
-    private final PlatProducer platProducer;
     private final StockClient stockClient;// Kafka producer
 
     public PlatService(PlatRepository platRepository,
                        CategorieRepository categorieRepository,
-                       PlatProducer platProducer,StockClient stockClient) {
+                       StockClient stockClient) {
         this.platRepository = platRepository;
         this.categorieRepository = categorieRepository;
-        this.platProducer = platProducer;
         this.stockClient = stockClient;
     }
 
@@ -59,7 +56,6 @@ public class PlatService {
 
         PlatResponseDTO response = PlatMapper.toResponse(saved, qty, available);
 
-        platProducer.sendPlatEvent(response);
         return response;
     }
 
@@ -106,7 +102,6 @@ public class PlatService {
         // Utiliser la méthode AVEC stock !
         PlatResponseDTO response = PlatMapper.toResponse(updated, qty, available);
 
-        platProducer.sendPlatEvent(response);
         return response;
     }
     // Supprimer un plat
@@ -116,7 +111,6 @@ public class PlatService {
         platRepository.delete(plat);
 
         // Publier un événement “Plat supprimé”
-        platProducer.sendPlatDeletedEvent(id);
     }
 }
 
