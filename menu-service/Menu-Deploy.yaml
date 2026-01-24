@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurant-menu-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restaurant-menu-service
+  template:
+    metadata:
+      labels:
+        app: restaurant-menu-service
+    spec:
+      containers:
+        - name: restaurant-menu-service
+          image: restaurant-menu-service:latest
+          ports:
+            - containerPort: 8010
+          env:
+            - name: DISCOVERY_SERVICE_URL
+              value: http://restaurant-discovery-service:8761/eureka
+            - name: CONFIG_SERVICE_URL
+              value: http://restaurant-config-service:9999
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8010
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restaurant-menu-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: restaurant-menu-service
+  ports:
+    - port: 8010
+      targetPort: 8010
